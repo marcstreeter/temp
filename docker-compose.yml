@@ -1,0 +1,13 @@
+version: "2"
+services:
+  api:
+    build:
+      context: .
+      args:
+        environment: ${BUILD_ENVIRONMENT-development}
+    environment:
+      environment: ${ENVIRONMENT-development}
+    volumes:
+    - ./app:/usr/src/app
+    ports:
+    - ${API_PORT-8081}:8000
