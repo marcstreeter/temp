@@ -1,0 +1,5 @@
+fastapi==0.67.0
+orjson==3.6.0
+pydantic==1.8.2
+tortoise-orm[aiomysql]==0.17.6
+uvicorn==0.14.0
