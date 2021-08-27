@@ -1,4 +1,6 @@
 version: "2"
+volumes:
+  api_db_vol:
 services:
   api:
     build:
@@ -6,8 +8,29 @@ services:
       args:
         environment: ${BUILD_ENVIRONMENT-development}
     environment:
-      environment: ${ENVIRONMENT-development}
+      DATABASE_HOST: ${API_DATABASE_HOST-api-db}
+      DATABASE_NAME: ${API_DATABASE_NAME-api}
+      DATABASE_PASS: ${API_DATABASE_PASS-api}
+      DATABASE_USER: ${API_DATABASE_USER-api}
+      ENVIRONMENT: ${ENVIRONMENT-development}
+      KAGGLE_USERNAME: ${API_KAGGLE_USER}
+      KAGGLE_KEY: ${API_KAGGLE_KEY}
+      KAGGLE_DATA: ${API_KAGGLE_DATA-shivamb/netflix-shows}
+      KAGGLE_DATA_PATH: ${API_KAGGLE_DATA_PATH-/tmp}
+      LOG_LEVEL: ${API_LOG_LEVEL-ERROR}
+      WAIT_FOR_DB: ${API_WAIT_FOR_DB-yes}
     volumes:
     - ./app:/usr/src/app
     ports:
-    - ${API_PORT-8081}:8000
+    - ${HOST_API_PORT-8081}:8000
+  api-db:
+    image: mariadb:10.5.8-focal
+    volumes:
+    - api_db_vol:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${API_DATABASE_NAME-api}
+      MYSQL_USER: ${API_DATABASE_USER-api}
+      MYSQL_PASSWORD: ${API_DATABASE_PASS-api}
+      MYSQL_ROOT_PASSWORD: ${API_DATABASE_PASS-api}
+    ports:
+    - ${HOST_API_DB_PORT-3339}:3306
