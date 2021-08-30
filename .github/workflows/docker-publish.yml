@@ -7,12 +7,10 @@ name: Docker
 
 on:
   push:
-    branches: [ main ]
-    # Publish semver tags as releases.
+    branches:
+    - 'main'
     tags:
-    - v*.*.*
-  pull_request:
-    branches: [ main ]
+    - 'v*.*.*'
 env:
   IMAGE_NAME: temp
   REGISTRY: marcstreeter
