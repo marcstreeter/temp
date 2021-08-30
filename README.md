@@ -24,7 +24,7 @@ pip install -r requirements/development.txt
 pre-commit install
 ```
 
-Starting up with
+Starting up with:
 
 ```commandline
 cp .env.example .env
