@@ -13,6 +13,9 @@ on:
     - v*.*.*
   pull_request:
     branches: [ main ]
+env:
+  IMAGE_NAME: temp
+  REGISTRY: marcstreeter
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -53,6 +56,12 @@ jobs:
             type=ref,event=pr
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
+      - name: Log Environment Variables Again
+        run: |
+          echo "REGISTRY: $REGISTRY"
+          echo "IMAGE NAME: $IMAGE_NAME"
+          echo "LABELS: ${{ steps.meta.outputs.labels }}"
+          echo "TAGS: ${{ steps.meta.outputs.tags }}"
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
