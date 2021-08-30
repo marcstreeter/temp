@@ -9,7 +9,8 @@ on:
   push:
     branches: [ main ]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    tags:
+    - v*.*.*
   pull_request:
     branches: [ main ]
 jobs:
@@ -20,6 +21,14 @@ jobs:
       packages: write
 
     steps:
+      - name: Log Version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: Log Environment Variables
+        run: |
+          echo "REGISTRY: $REGISTRY"
+          echo "IMAGE NAME: $IMAGE_NAME"
+          echo "VERSION: ${{ steps.get_version.outputs.VERSION }}"
       - name: Checkout repository
         uses: actions/checkout@v2
 
